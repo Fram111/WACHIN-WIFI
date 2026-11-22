@@ -1,0 +1,24 @@
+[package]
+name = "wachin-wifi"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "wachin_wifi_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+rusqlite = { version = "0.37", features = ["bundled"] }
+[target.'cfg(windows)'.dependencies]
+libloading = "0.8"
+windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_NetworkManagement_IpHelper", "Win32_NetworkManagement_Ndis"] }
+
+[dependencies.serde]
+version = "1"
+features = ["derive"]
+

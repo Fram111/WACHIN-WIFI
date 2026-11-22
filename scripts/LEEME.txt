@@ -1,0 +1,12 @@
+﻿WACHIN-WIFI
+===========
+
+Para abrir la aplicacion, haz doble clic en WACHIN-WIFI.exe.
+
+La captura de red requiere Windows de 64 bits, Microsoft Edge WebView2 y Npcap instalado por separado desde https://npcap.com/ . Revisa sus condiciones de licencia antes de instalarlo.
+
+Utiliza esta herramienta solo en interfaces y redes para las que tengas autorizacion. Las capturas pueden contener informacion privada.
+
+Para capturar, espera a que se detecte la interfaz de salida activa y pulsa Iniciar captura. Para guardar una sesion, deten la captura y pulsa Guardar sesion. Podras abrirla, exportarla para Wireshark o eliminarla desde Historial.
+
+La aplicacion guarda como maximo los ultimos 2.000 paquetes que aun esten en memoria al guardar. Algunas funciones siguen en desarrollo.

@@ -1,0 +1,9 @@
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import { formatRate, type TrafficPoint } from '../../hooks/useTrafficRate'
+
+export function TrafficChart({ points, active, unavailable }: { points: TrafficPoint[]; active: boolean; unavailable: boolean }) {
+  if (!points.length) return <div className="empty-chart"><div className="chart-pulse"/><strong>{unavailable ? 'Contadores no disponibles' : active ? 'Midiendo la interfaz…' : 'Sin captura activa'}</strong><p>{unavailable ? 'Windows no proporcionó contadores para esta interfaz.' : active ? 'El gráfico aparecerá después de la primera medición.' : 'Inicia una captura para ver la actividad en tiempo real.'}</p></div>
+  return <div className="traffic-chart" role="img" aria-label="Gráfico de velocidad de entrada y salida del adaptador"><ResponsiveContainer width="100%" height="100%"><AreaChart data={points} margin={{ top: 16, right: 12, bottom: 0, left: 5 }}><CartesianGrid vertical={false} stroke="#252b35" strokeDasharray="3 5"/><XAxis dataKey="time" tick={{ fill:'#9299a5', fontSize:10 }} tickLine={false} axisLine={false} minTickGap={35}/><YAxis tickFormatter={value => formatRate(Number(value))} width={76} tick={{ fill:'#9299a5', fontSize:10 }} tickLine={false} axisLine={false}/><Tooltip labelStyle={{ color:'#f4f5f7' }} contentStyle={{ background:'#151922',border:'1px solid #303743',borderRadius:8,fontSize:12 }} formatter={(value) => formatRate(Number(value))}/><Area type="monotone" dataKey="incoming" name="Entrada" stroke="#42d6b0" fill="#42d6b0" fillOpacity={0.12} strokeWidth={2} isAnimationActive={false}/><Area type="monotone" dataKey="outgoing" name="Salida" stroke="#7a91df" fill="#7a91df" fillOpacity={0.08} strokeWidth={2} isAnimationActive={false}/></AreaChart></ResponsiveContainer></div>
+}
+
+export default TrafficChart
