@@ -1,9 +1,9 @@
-# Seguridad
+# Seguridad y privacidad
 
-Capturar solo con autorización. El tráfico puede contener datos sensibles; tratar capturas como información confidencial. No hay captura, elevación, comandos externos ni instalación de controladores implementados. La aplicación no incorporará ataques, inyección ni interceptación activa. Antes de cualquier captura o instalación se deberán aclarar permisos y almacenamiento.
+Captura únicamente en interfaces y redes para las que tengas autorización. Npcap se instala por separado y la aplicación no activa modo promiscuo ni ofrece inyección o modificación de paquetes.
 
-## Captura y datos
+Los paquetes pueden contener información privada. La vista hexadecimal y ASCII muestra los bytes recibidos. El historial solo se escribe al pulsar **Guardar sesión**, en la carpeta de datos de la aplicación del usuario actual. Los PCAP exportados son copias independientes: trátalos como información confidencial.
 
-El proveedor Npcap no activa modo promiscuo, pero los paquetes entregados pueden incluir contenido sensible. La vista hexadecimal y ASCII muestra los bytes capturados; evita compartirlos sin revisarlos. Los datos se mantienen en memoria, no se guardan automáticamente en archivos. El usuario debe instalar Npcap separadamente conforme a su licencia. No hay elevación automática.
+Eliminar una sesión borra el archivo interno y sus metadatos, pero no borra copias exportadas ni garantiza borrado físico seguro. No hay un límite automático de almacenamiento del historial; revisa y elimina sesiones que ya no necesites.
 
-Guardar una sesion escribe paquetes sensibles en la carpeta de datos del usuario. Eliminar la sesion borra el archivo interno y sus metadatos; no elimina copias exportadas ni garantiza borrado fisico seguro.
+La aplicación no eleva permisos por sí sola. El acceso a Npcap depende de su instalación y de las políticas del sistema. No compartas contraseñas, tokens ni capturas sin revisarlas. Para informar un problema de seguridad, contacta al titular del repositorio sin incluir datos sensibles en una incidencia pública.
