@@ -1,27 +1,34 @@
 # WACHIN-WIFI
 
-Aplicación local de análisis de red para Windows. La interfaz ofrece selección de interfaz Npcap, inicio y detención, tabla, búsqueda simple y vista hexadecimal/ASCII. El proveedor Npcap fue probado en este equipo con tráfico real generado durante una prueba breve. Utilizar únicamente en redes e interfaces autorizadas.
+Analizador local de tráfico de red para Windows, desarrollado con Rust, Tauri 2, React y TypeScript. Permite observar paquetes entregados a la interfaz activa, consultar estadísticas y guardar sesiones para analizarlas en la aplicación o en Wireshark.
 
-Npcap se instala por separado desde https://npcap.com/ y requiere revisar sus condiciones de licencia. La aplicación no lo incluye ni lo instala. Luego inicia la aplicación Tauri, abre Captura y pulsa Buscar interfaces. La versión en navegador no puede acceder al motor nativo. Consulta [DEVELOPMENT.md](DEVELOPMENT.md) y [CAPTURE_ENGINE.md](CAPTURE_ENGINE.md).
+**Versión en desarrollo:** úsala solo en redes e interfaces donde tengas autorización. Una captura puede contener información privada.
 
-Solo se conservan los últimos 2.000 paquetes en memoria. Los filtros de captura y varias pantallas siguen pendientes. La captura puede incluir contenido sensible.
+## Quiero usar la aplicación
 
+1. Necesitas Windows 10 u 11 de 64 bits, Microsoft Edge WebView2 Runtime y Npcap instalado por separado.
+2. Descarga `WACHIN-WIFI.exe` desde una versión de este repositorio cuando haya una disponible. También puedes compilarlo siguiendo [DEVELOPMENT.md](DEVELOPMENT.md).
+3. Abre el ejecutable, espera la detección de la interfaz y pulsa **Iniciar captura**.
 
-## Análisis en memoria
+La aplicación se distribuye como ejecutable, no como instalador. Npcap no está incluido y tiene [condiciones de licencia propias](https://npcap.com/guide/). Wireshark es opcional.
 
-La pantalla Paquetes admite búsqueda libre y filtros de visualización `tcp`, `udp`, `icmp`, `icmpv6`, `arp`, `ethernet`, `ip.src == IPv4`, `ip.dst == IPv4`, `tcp.port == número` y `udp.port == número`. No son filtros de captura ni implementan toda la sintaxis de Wireshark. Dispositivos, Protocolos y Estadísticas agrupan únicamente los últimos 2.000 paquetes en memoria; los dispositivos son direcciones IP observadas y no un inventario completo de red. El analizador reconoce IPv6 base y transporte inmediato, sin recorrer cabeceras de extensión ni reconstruir fragmentos. Historial, almacenamiento y exportación siguen pendientes.
+**[Manual de usuario completo](MANUAL_DE_USUARIO.md)** · [Guía de desarrollo](DEVELOPMENT.md) · [Motor de captura](CAPTURE_ENGINE.md) · [Seguridad](SECURITY.md)
 
-## Velocidad de red
+## Qué funciona
 
-Durante la captura, Inicio y Panel de captura muestran la velocidad de entrada y salida de la interfaz seleccionada y un grafico de los ultimos 60 puntos. Se calcula a partir de los contadores de bytes de Windows y el tiempo transcurrido entre muestras; representa el trafico total del adaptador y puede diferir del trafico entregado a Npcap. Para interfaces sin contadores compatibles se muestra que no estan disponibles. La animacion de busqueda aparece mientras se enumeran interfaces.
+- Detección automática de la interfaz usada por una ruta IPv4 de referencia, captura con Npcap y detención.
+- Tabla de paquetes, búsqueda, filtros de visualización y detalle hexadecimal y ASCII.
+- Gráfico y velocidades del adaptador; resúmenes de direcciones y protocolos observados.
+- Guardado explícito de la ventana de paquetes en un historial local, reapertura, eliminación y exportación PCAP para Wireshark.
 
+## Límites importantes
 
-## Guardar, analizar y exportar
+- Se mantienen hasta **2.000 paquetes** en memoria. Al guardar se conserva únicamente lo que siga en memoria; el historial informa los paquetes retirados.
+- La interfaz se detecta mediante la ruta IPv4 que Windows elegiría hacia `1.1.1.1`, sin enviarle paquetes. Una VPN, una ruta específica o una red solo IPv6 pueden usar otra interfaz. Si la ruta cambia, la captura se detiene.
+- Los gráficos usan contadores de Windows del adaptador completo y pueden diferir de los paquetes capturados. Los dispositivos son direcciones observadas, no un inventario de toda la red.
+- El analizador es parcial: no reconstruye fragmentos ni recorre cabeceras de extensión IPv6. No hay filtros de captura, importación general de PCAP externo ni descifrado TLS.
+- El proyecto aún no tiene una licencia de código propia elegida. Antes de redistribuir o reutilizar el código, consulta con su titular. Las licencias de terceros se detallan en [DEPENDENCIES.md](DEPENDENCIES.md).
 
-Deten la captura y pulsa **Guardar sesion** en Captura o Panel de captura. La seccion **Historial** permite abrir la sesion en la aplicacion, exportar un archivo PCAP para abrirlo en Wireshark y eliminar la sesion guardada mediante confirmacion. El guardado es explicito: se almacenan como maximo los ultimos 2.000 paquetes; los anteriores no se recuperan. El historial indica las cantidades capturada, guardada y retirada. Los tiempos del archivo tienen resolucion de milisegundos. No hay importacion general de archivos PCAP externos ni limite automatico del historial.
+## Para desarrolladores
 
-Los archivos PCAP contienen datos potencialmente sensibles. Se guardan junto con una base de metadatos en la carpeta de datos de la aplicacion. Al eliminar una sesion se eliminan su archivo interno y sus metadatos; las copias exportadas y los paquetes aun visibles en memoria no se eliminan automaticamente.
-
-## Seleccion automatica de interfaz
-
-La aplicacion consulta la ruta IPv4 que Windows elegiria para el destino de referencia 1.1.1.1, sin enviarle paquetes; busca su adaptador activo en Npcap. No usa el primer elemento enumerado. Antes de capturar valida de nuevo la ruta y, si cambia durante la sesion, detiene la captura para evitar mezclar adaptadores. Las velocidades y el grafico usan la misma interfaz. Si no hay ruta IPv4 o Npcap no expone ese adaptador, se muestra un error. Una ruta especifica para otro destino, una VPN o una red solo IPv6 pueden usar otra interfaz; no se afirma que este metodo abarque todo el trafico del equipo.
+La compilación requiere Node.js, Rust, las herramientas C++ de Microsoft, Windows SDK y WebView2. Npcap se instala aparte para probar capturas. Consulta [DEVELOPMENT.md](DEVELOPMENT.md) para las instrucciones y [ARCHITECTURE.md](ARCHITECTURE.md) para la organización.

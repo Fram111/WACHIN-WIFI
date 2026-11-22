@@ -1,13 +1,23 @@
-# Dependencias
+# Dependencias y licencias
 
-Dependencias iniciales: React y React DOM (MIT), Vite y plugin React (MIT), TypeScript (Apache-2.0), Tailwind CSS y plugin Vite (MIT), API/CLI Tauri y crates Tauri (MIT o Apache-2.0). Se usan para interfaz, tipado, estilos y contenedor de escritorio. Oxlint pertenece a la plantilla de Vite (MIT); paquetes de tipos incluyen sus respectivas licencias en node_modules. La lista transitiva y sus licencias deben auditarse con los archivos lock antes de distribuir. Las versiones exactas npm están en package-lock.json; Cargo.lock todavía no existe porque falta Cargo.
+Las versiones exactas de paquetes npm están en `package-lock.json` y las de Rust en `src-tauri/Cargo.lock`. Esta tabla resume dependencias directas; antes de distribuir se requiere una auditoría de las licencias transitivas y de los términos aplicables.
 
-Para fases posteriores se evaluarán Serde, SQLite, Recharts y una biblioteca de captura/análisis tras comprobar licencias y necesidades. No se incluyen aún. Npcap tiene condiciones separadas; ver CAPTURE_ENGINE.md. La licencia del código propio está pendiente de elección por el titular.
+| Dependencia | Uso | Licencia declarada |
+| --- | --- | --- |
+| React, React DOM | Interfaz | MIT |
+| Vite, plugin React | Compilación de interfaz | MIT |
+| TypeScript | Tipado | Apache-2.0 |
+| Tailwind CSS y plugin Vite | Estilos | MIT |
+| Recharts | Gráficos | MIT |
+| lucide-react | Iconos | ISC |
+| Tauri, API y CLI | Aplicación de escritorio | MIT o Apache-2.0 |
+| tauri-plugin-dialog | Diálogo para exportar | MIT o Apache-2.0 |
+| Serde | Serialización | MIT o Apache-2.0 |
+| rusqlite | Metadatos de historial | MIT; SQLite incluido es de dominio público |
+| libloading | Carga de biblioteca Npcap | ISC |
+| windows-sys | Contadores e interfaces de Windows | MIT o Apache-2.0 |
+| Oxlint | Análisis estático | MIT |
 
-La interfaz inicial usa lucide-react (ISC) para iconos. Rust se instaló en el perfil de usuario durante el desarrollo; aún se requiere verificar el compilador nativo y las dependencias transitivas de Cargo.
+Npcap se instala por separado y tiene [condiciones propias](https://npcap.com/guide/). La edición gratuita no autoriza redistribuir su instalador; no se incluye en este repositorio ni en la entrega. WebView2 y las herramientas de Microsoft tienen sus propios términos.
 
-El proveedor de Windows usa libloading 0.8 (ISC) para cargar Npcap del sistema. Npcap es independiente, tiene restricciones específicas y no se distribuye con la aplicación; ver CAPTURE_ENGINE.md. Serde (MIT OR Apache-2.0) serializa comandos y eventos.
-
-Recharts se utiliza para los graficos del frontend (licencia MIT). windows-sys (MIT OR Apache-2.0) permite consultar los contadores de interfaz de Windows sin ejecutar procesos externos.
-
-Historial: rusqlite (MIT) con SQLite incluido (dominio publico) y tauri-plugin-dialog (MIT OR Apache-2.0) para seleccionar la ruta de exportacion.
+El titular aún no ha elegido una licencia para el código de WACHIN-WIFI. La presencia de licencias permisivas en dependencias no otorga por sí sola una licencia de distribución del código del proyecto.
